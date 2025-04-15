@@ -1,6 +1,7 @@
 package org.example.javangersspring.controller;
 
 import org.example.javangersspring.model.Message;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,11 +17,13 @@ public class MessageController {
 
     @GetMapping
     public String getMessages() {
-        StringBuilder result = new StringBuilder("There are following messages:\n");
+        JSONObject jsonObject = new JSONObject();
         for (Message message : messages) {
-            result.append(message.getId()).append(": ").append(message.getName()).append(": ").append(message.getMessage()).append("\n");
+            jsonObject.put("id", message.getId());
+            jsonObject.put("name", message.getName());
+            jsonObject.put("message", message.getMessage());
         }
-        return result.toString();
+        return jsonObject.toString();
     }
 
     @PostMapping

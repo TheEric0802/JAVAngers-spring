@@ -1,7 +1,9 @@
 package org.example.javangersspring.controller;
 
 import org.example.javangersspring.model.Message;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,9 @@ public class MessageController {
 
     @DeleteMapping("/{id}")
     public String deleteMessage(@PathVariable String id) {
-        messages.removeIf(message -> message.getId().equals(id));
-        return "Message " + id + " deleted";
+        if (messages.removeIf(message -> message.getId().equals(id))) {
+            return "Message " + id + " deleted";
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID " + id + " not found");
     }
 }

@@ -15,7 +15,7 @@ public class MessageController {
 
     private List<Message> messages = new ArrayList<>();
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public String getMessages() {
         JSONObject jsonObject = new JSONObject();
         for (Message message : messages) {
